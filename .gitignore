@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.so
+*.whl
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env.local
+
+# Environment files (contain secrets!)
+backend/.env
+.env
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+*.db
+test.db
+
+# Alembic
+# (versions/ is committed, but not __pycache__ inside it)
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.local
+
+# Whisper model cache
+.cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
