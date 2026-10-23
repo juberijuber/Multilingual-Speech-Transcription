@@ -25,6 +25,14 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+# Ensure UTF-8 output on Windows consoles
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Add backend directory to sys.path so 'app' imports work
 backend_dir = Path(__file__).resolve().parent
 if str(backend_dir) not in sys.path:

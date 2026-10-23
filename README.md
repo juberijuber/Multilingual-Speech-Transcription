@@ -145,6 +145,25 @@ alembic upgrade head
 
 > **Note:** The app also auto-creates tables on startup via SQLAlchemy if migrations are skipped. Migrations are preferred for production.
 
+### 5b. (Optional) Seed demo data
+
+Populate the database with 14 multilingual demo transcription records (English, Hindi, Hinglish, Spanish, French, German, Japanese, Tamil, Arabic, Chinese, Portuguese):
+
+```bash
+# On the host (uses REST API fallback if SQLAlchemy isn't in local environment):
+python backend/seed.py
+
+# Or directly inside the running Docker backend container:
+docker exec voicelens_backend python seed.py
+
+# Or import directly into PostgreSQL via SQL script:
+docker exec -i voicelens_postgres psql -U postgres -d speech_transcription < backend/seed.sql
+
+# Optional flags:
+python backend/seed.py --clear    # Clear and re-seed
+python backend/seed.py --api      # Force REST API seeding
+```
+
 ### 6. Start the backend
 
 ```bash
