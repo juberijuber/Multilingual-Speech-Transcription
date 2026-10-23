@@ -9,6 +9,15 @@ Registers:
 """
 
 import logging
+import sys
+
+# Ensure UTF-8 on Windows consoles to prevent charmap encoding errors
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -53,9 +62,18 @@ app.include_router(speech.router)
 # ── Startup ───────────────────────────────────────────────────────────────────
 @app.on_event("startup")
 async def on_startup():
-    logger.info("Creating database tables (if they don't already exist)...")
-    Base.metadata.create_all(bind=engine)
-    logger.info("Database ready.")
+    try:
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database ready.")
+    except Exception as exc:
+        logger.error(
+            "\n" + "=" * 62 + "\n"
+            "❌ Could not connect to PostgreSQL database!\n"
+            "   Please start the database container in the background:\n"
+            "   👉  docker compose up -d postgres\n"
+            + "=" * 62
+        )
+        raise exc
 
     # ── Print service URLs to the terminal ────────────────────────────────────
     banner = """
@@ -68,13 +86,16 @@ async def on_startup():
 ║   📖  API Docs           →   http://localhost:8000/api/docs  ║
 ║   ❤️   Health Check       →   http://localhost:8000/health   ║
 ║                                                              ║
-║   🗄️   PostgreSQL          →   localhost:5432                 ║
+║   🗄️   PostgreSQL          →   localhost:5433                 ║
 ║        Database: speech_transcription                        ║
 ║        Username: postgres                                    ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 """
-    print(banner, flush=True)
+    try:
+        print(banner, flush=True)
+    except Exception:
+        print("VoiceLens Backend running on http://localhost:8000 | Docs: http://localhost:8000/api/docs")
 
 
 # ── Health check ──────────────────────────────────────────────────────────────

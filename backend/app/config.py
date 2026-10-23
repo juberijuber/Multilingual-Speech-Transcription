@@ -3,18 +3,22 @@ config.py — Central application configuration.
 All settings are loaded from environment variables (never hard-coded).
 """
 
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent
+_ENV_PATH = _BACKEND_DIR / ".env"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(_ENV_PATH) if _ENV_PATH.exists() else ".env",
         env_file_encoding="utf-8",
         extra="ignore",
     )
 
     # ── Database ──────────────────────────────────────────────────────────────
-    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/speech_transcription"
+    DATABASE_URL: str = "postgresql+psycopg2://postgres:1234@localhost:5433/speech_transcription"
 
     # ── CORS ──────────────────────────────────────────────────────────────────
     # Comma-separated list of allowed origins, e.g. "http://localhost:5173,https://myapp.com"

@@ -9,9 +9,8 @@ python-multipart>=0.0.9
 httpx>=0.27.0
 
 # Speech recognition
-# Install faster-whisper for real transcription:
-# pip install faster-whisper
-# It also requires ffmpeg: https://ffmpeg.org/download.html
+faster-whisper>=1.0.0
+av<14
 
 # Testing
 pytest>=8.0.0
