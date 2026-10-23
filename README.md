@@ -22,6 +22,14 @@ The entire stack runs locally with one `docker compose up` command, or can be de
 
 ---
 
+## 📸 Preview
+
+### 🏠 Application Dashboard
+![VoiceLens Dashboard](./Preview.png)
+
+### 📜 Application History
+![VoiceLens History](./History_Page.png)
+
 ## 🏗️ Architecture
 
 ```
